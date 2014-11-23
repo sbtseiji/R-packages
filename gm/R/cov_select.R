@@ -2,7 +2,7 @@ cov_select<-function(model=x, cmat=y, n.obs=0, AIC=Inf){
   require(ggm)
 
   # 偏相関行列を作成
-  pmat<- (-1)*solve(cmat) / sqrt(diag(solve(cmat)) %*% t(sqrt(diag(solve(cmat)))))
+  pmat<- (-1)*solve(cmat) / (sqrt(diag(solve(cmat))) %*% t(sqrt(diag(solve(cmat)))))
   diag(pmat)<- 1
 
   # 相関係数を絶対値に変換
