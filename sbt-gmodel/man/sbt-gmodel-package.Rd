@@ -1,6 +1,6 @@
-\name{gm-package}
-\alias{gm-package}
-\alias{gm}
+\name{sbt-gmodel-package}
+\alias{sbt-gmodel-package}
+\alias{sbt-gmodel}
 \docType{package}
 \title{
 What the package does (short line)
@@ -12,7 +12,7 @@ More about what it does (maybe more than one line)
 }
 \details{
 \tabular{ll}{
-Package: \tab gm\cr
+Package: \tab sbt-gmodel\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
 Date: \tab 2014-11-24\cr
