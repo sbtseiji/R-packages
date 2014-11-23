@@ -1,0 +1,15 @@
+Package: gm
+Title: Scpripts for Graphical Modeling
+Version: 0.0.1
+Date: 2014-11-23
+Author: SHIBATA Seiji
+Maintainer: SHIBATA Seiji <contact@sbtseiji.net>
+Description: This package includes small scripts for graphical modeling
+Imports:
+    ggm
+Suggests:
+    testthat
+Depends:
+    R (>= 3.1.0),
+    xts
+License: MIT + file LICENSE
