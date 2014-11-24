@@ -29,7 +29,8 @@ cov_select<-function(model=x, cov=y, n.obs=0, AIC=Inf){
   # 最終的に得られたモデルを描画 & 偏相関行列を表示
   else{
     drawGraph(model,adjust=FALSE)
-    pmat[which(model==0)]<-0
+    pmat[which(model==0)]<-0 # 指数表記になるのを防ぐ
+    diag(pmat)<-1 # 対角成分を1に
     (pmat)
   }
 }
