@@ -1,8 +1,11 @@
-cov_select<-function(model=x, cmat=y, n.obs=0, AIC=Inf){
+cov_select<-function(model=x, cov=y, n.obs=0, AIC=Inf){
   require(ggm)
 
+  # 相関行列を作成
+  cmat<-cov / sqrt(diag(cov) %*% t(diag(cov)))
+
   # 偏相関行列を作成
-  pmat<- (-1)*solve(cmat) / (sqrt(diag(solve(cmat))) %*% t(sqrt(diag(solve(cmat)))))
+  pmat<- (-1)*solve(cmat) / sqrt(diag(solve(cmat)) %*% t(diag(solve(cmat))))
   diag(pmat)<- 1
 
   # 相関係数を絶対値に変換
@@ -16,7 +19,7 @@ cov_select<-function(model=x, cmat=y, n.obs=0, AIC=Inf){
   model_post[which(amat==min(amat))]<-0
 
   # モデルのフィットとAICの算出
-  f<-fitConGraph(model_post,cmat,n.obs)
+  f<-fitConGraph(model_post,cov,n.obs)
   AIC_post<-f$dev-2*f$df
 
   # モデルの適合度が最大になるまで反復
