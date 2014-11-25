@@ -1,7 +1,7 @@
-library(MASS)
-source("/Users/sshibata/Dropbox/R_scripts/Wilks.R")
 candisc<-function(object)  #多変量 lmオブジェクト
 {
+    require(MASS)
+  
     m  <- min(object$rank-1,ncol(object$coefficients))
 
     w  <- resid(object)
