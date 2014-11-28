@@ -1,4 +1,5 @@
 cov_select<-function(model=x, cov=y, n.obs=0, AIC=0, cov_orig=NULL){
+  require(gym)
   if(is.null(cov_orig)){cov_orig<-cov}
   print(sprintf("AIC= %.4f", AIC ),quote=F)
   #' 偏相関行列を作成
