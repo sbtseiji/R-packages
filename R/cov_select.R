@@ -13,8 +13,9 @@ cov_select<-function(model=x, cov=y, n.obs=0, AIC=0, cov_orig=NULL){
   amat[which(model==0)]<-Inf
 
   #' 偏相関の絶対値が最小の要素を0にした修正モデルを作成
-  model_post<-model
+  model_post<-rep(1,nrow(cov))%*%t(rep(1,nrow(cov)))
   model_post[which.min(amat)]<-0
+  model_post<-model_post * t(model_post) * model
 
   #' モデルのフィットとAICの算出
   f<-fitConGraph(model_post,cov_orig,n.obs)
@@ -27,9 +28,10 @@ cov_select<-function(model=x, cov=y, n.obs=0, AIC=0, cov_orig=NULL){
   
   #' 最終的に得られたモデルを描画 & 偏相関行列を表示
   else{
-    drawGraph(model_post,adjust=FALSE)
+    drawGraph(model,adjust=FALSE)
     diag(pmat)<-1
  	cat("\n")
+    pmat[which(model==0)]<-0
     (pmat)
   }
 }
