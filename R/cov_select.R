@@ -30,6 +30,6 @@ cov_select<-function(model=x, cov=y, n.obs=0, AIC=0, cov_orig=NULL){
   else{
     diag(pmat)<-1
     pmat[which(model==0)]<-0
-    return(list(fitConGraph(model,cov_orig,n.obs),model=model,covmat=pmat))
+    return(list(fit=fitConGraph(model,cov_orig,n.obs),model=model,covmat=pmat))
   }
 }
