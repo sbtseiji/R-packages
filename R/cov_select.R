@@ -1,7 +1,7 @@
 cov_select<-function(model=x, cov=y, n.obs=0, AIC=0, cov_orig=NULL){
   require(ggm)
   if(is.null(cov_orig)){cov_orig<-cov}
-  print(sprintf("AIC= %.4f", AIC ),quote=F)
+#  print(sprintf("AIC= %.4f", AIC ),quote=F)
   #' 偏相関行列を作成
   pmat<- (-1)*solve(cov) / sqrt(diag(solve(cov)) %*% t(diag(solve(cov))))
   diag(pmat)<- 1
