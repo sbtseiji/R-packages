@@ -39,6 +39,8 @@ cov_select<-function(model=x, cov=y, n.obs=0, AIC=0, cov_orig=NULL){
     den<-sum(diag((solve(H)%*%S)%*%(solve(H)%*%S)))
     GFI<-1-(num/den)
     AGFI<-1-(p*(p+1)*(1-GFI))/(2*f$df)
-    return(list(fit=fitConGraph(model,cov_orig,n.obs),GFI=GFI,AGFI=AGFI,model=model,covmat=pmat))
+    res<-f
+    res<-c(f,GFI=GFI, AGFI=AGFI)
+    return(list(fit=res,model=model, covmat=pmat))
   }
 }
