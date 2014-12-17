@@ -23,13 +23,22 @@ cov_select<-function(model=x, cov=y, n.obs=0, AIC=0, cov_orig=NULL){
   
   #' モデルの適合度が最大になるまで反復
   if (AIC_post<AIC){
-    Recall(model_post,f$Shat,n.obs,AIC=AIC_post,cov_orig=cov)
+    Recall(model_post,f$Shat,n.obs,AIC=AIC_post,cov_orig=cov_orig)
   }
   
   #' 最終的に得られたモデルを描画 & 偏相関行列を表示
   else{
     diag(pmat)<-1
     pmat[which(model==0)]<-0
-    return(list(fit=fitConGraph(model,cov_orig,n.obs),model=model,covmat=pmat))
+    f<-fitConGraph(model,cov_orig,n.obs)
+    # GFIの算出
+    S<-cov2cor(cov_orig)
+    H<-cov2cor(f$Shat)
+    p<-nrow(cov_orig)
+    num<-sum(diag((solve(H)%*%(S-H))%*%(solve(H)%*%(S-H))))
+    den<-sum(diag((solve(H)%*%S)%*%(solve(H)%*%S)))
+    GFI<-1-(num/den)
+    AGFI<-1-(p*(p+1)*(1-GFI))/(2*f$df)
+    return(list(fit=fitConGraph(model,cov_orig,n.obs),GFI=GFI,AGFI=AGFI,model=model,covmat=pmat))
   }
 }
