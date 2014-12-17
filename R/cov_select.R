@@ -5,22 +5,22 @@ cov_select<-function(model=x, cov=y, n.obs=0, AIC=0, cov_orig=NULL){
   #' 偏相関行列を作成
   pmat<- (-1)*solve(cov) / sqrt(diag(solve(cov)) %*% t(diag(solve(cov))))
   diag(pmat)<- 1
-
+  
   #' 偏相関係数を絶対値に変換
   amat<-abs(pmat)
-
+  
   #' モデルの係数が0の箇所を無限大に設定
   amat[which(model==0)]<-Inf
-
+  
   #' 偏相関の絶対値が最小の要素を0にした修正モデルを作成
   model_post<-rep(1,nrow(cov))%*%t(rep(1,nrow(cov)))
   model_post[which.min(amat)]<-0
   model_post<-model_post * t(model_post) * model
-
+  
   #' モデルのフィットとAICの算出
   f<-fitConGraph(model_post,cov_orig,n.obs)
   AIC_post<-f$dev-2*f$df
-
+  
   #' モデルの適合度が最大になるまで反復
   if (AIC_post<AIC){
     Recall(model_post,f$Shat,n.obs,AIC=AIC_post,cov_orig=cov)
@@ -28,10 +28,9 @@ cov_select<-function(model=x, cov=y, n.obs=0, AIC=0, cov_orig=NULL){
   
   #' 最終的に得られたモデルを描画 & 偏相関行列を表示
   else{
-    drawGraph(model,adjust=FALSE)
     diag(pmat)<-1
- 	cat("\n")
+    cat("\n")
     pmat[which(model==0)]<-0
-    (pmat)
+    return(list(fitConGraph(model,cov_orig,n.obs),model=model,covmat=pmat))
   }
 }
