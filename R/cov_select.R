@@ -30,7 +30,10 @@ cov_select<-function(model=x, cov=y, n.obs=0, AIC=0, cov_orig=NULL){
   else{
     diag(pmat)<-1
     pmat[which(model==0)]<-0
+    model.0<-model*0
     f<-fitConGraph(model,cov_orig,n.obs)
+    f.0<-fitConGraph(model.0,cov_orig,n.obs)
+
     # GFIの算出
     S<-cov2cor(cov_orig)
     H<-cov2cor(f$Shat)
@@ -39,8 +42,10 @@ cov_select<-function(model=x, cov=y, n.obs=0, AIC=0, cov_orig=NULL){
     den<-sum(diag((solve(H)%*%S)%*%(solve(H)%*%S)))
     GFI<-1-(num/den)
     AGFI<-1-(p*(p+1)*(1-GFI))/(2*f$df)
+    RMSEA<-sqrt(max(((f$dev-f$df)/(f$df*(nrow(cov_orig)-1))),0))
+    CFI<-(f.0$dev*f.0$df-f$dev*f$df)/(f.0$dev*f.0$df)
     res<-f
-    res<-c(f,GFI=GFI, AGFI=AGFI)
+    res<-c(f,GFI=GFI, AGFI=AGFI,RMSEA=RMSEA,CFI=CFI)
     return(list(fit=res,model=model, covmat=pmat))
   }
 }
